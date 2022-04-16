@@ -1,0 +1,21 @@
+const { ObjectId } = require('mongodb');
+const { model, Schema } = require('mongoose');
+
+
+const userSchema = new Schema({
+    email: { type: String, required: [true, 'Email is required'] },
+    hashedPassword: { type: String, required: true },
+    playlist: { type: [ObjectId], ref: 'Item' },
+});
+
+
+userSchema.index({ email: 1}, {
+    collation: {
+        locale: 'en',
+        strength: 1
+    }
+});
+
+const User = model('User', userSchema);
+
+module.exports = User;
